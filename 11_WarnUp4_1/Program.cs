@@ -36,14 +36,15 @@ namespace _11_WarnUp4_1
         
         static void Main(string[] args)
         {
+
             // create a rectangle
-            int width = 20;
-            int height = 10;
+            int width = 50;
+            int height = 25;
 
             // draw the rectangle to screen
-            for (int i = 0; i < height; i++) 
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < width; j++) 
+                for (int j = 0; j < width; j++)
                 {
                     WriteWithRandomColor("#");
                 }
