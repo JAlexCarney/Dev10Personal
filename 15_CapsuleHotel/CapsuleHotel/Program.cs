@@ -11,7 +11,7 @@ namespace CapsuleHotel
             WriteWithColor("===========================\n", ConsoleColor.DarkYellow);
 
             // initialize hotel array
-            int hotelCapacity = GetIntInRange("Enter the number of capsules available: ", 1, 2147483647);
+            int hotelCapacity = GetIntInRange("Enter the number of capsules available: ", 1, int.MaxValue);
             string[] hotel = new string[hotelCapacity];
 
             // Display success
@@ -66,36 +66,34 @@ namespace CapsuleHotel
                 // get user selection
                 int selection = GetIntInRange($"Choose an option [1-4] ", 1, 4);
 
+                // Clear screen
+                Console.Clear();
+
                 switch (selection)
                 {
                     case 1: // Check In
-                        Console.Clear();
                         CheckIn(hotel);
-                        PromptContinue();
                         break;
                     case 2: // Check Out
-                        Console.Clear();
                         CheckOut(hotel);
-                        PromptContinue();
                         break;
                     case 3: // View Guests
-                        Console.Clear();
                         ViewHotel(hotel);
-                        PromptContinue();
                         break;
                     case 4: // Exit
-                        Console.Clear();
                         if (Exit()) 
                         {
                             Console.Clear();
                             WriteWithColor("Goodbye!\n\n", ConsoleColor.Yellow);
                             return;
                         }
-                        PromptContinue();
                         break;
                     default:
                         break;
                 }
+
+                // prompt before next loop
+                PromptContinue();
             }
         }
         
@@ -106,7 +104,7 @@ namespace CapsuleHotel
         /// <returns>The first valid string that the user enters</returns>
         static string GetString(string prompt) 
         {
-            string output = "";
+            string output;
             do
             {
                 Console.Write(prompt);
@@ -137,7 +135,7 @@ namespace CapsuleHotel
                 input = Console.ReadLine();
                 Console.ForegroundColor = ConsoleColor.White;
             }
-            while (!int.TryParse(input, out output) || !(output >= min) || !(output <= max));
+            while (!int.TryParse(input, out output) || output < min || output > max);
 
             return output;
         }
@@ -190,18 +188,8 @@ namespace CapsuleHotel
             WriteWithColor("==============\n", ConsoleColor.DarkYellow);
 
             // make sure hotel isn't full
-            bool full = true;
-            foreach (string guest in hotel)
-            {
-                if (string.IsNullOrEmpty(guest))
-                {
-                    full = false;
-                    break;
-                }
-            }
-
             // can't check out if hotel is empty
-            if (full)
+            if (isFull(hotel))
             {
                 WriteWithColor($"Error :(\nThe hotel is fully booked.\n", ConsoleColor.Red);
                 return;
@@ -231,6 +219,30 @@ namespace CapsuleHotel
 
         }
 
+        static bool isEmpty(string[] array) 
+        {
+            foreach (string s in array)
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        static bool isFull(string[] array)
+        {
+            foreach (string s in array)
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// takes in the hotel and alteres it to remove a guest
         /// </summary>
@@ -242,18 +254,8 @@ namespace CapsuleHotel
             WriteWithColor("===============\n", ConsoleColor.DarkYellow);
 
             // make sure hotel isn't empty
-            bool empty = true;
-            foreach (string guest in hotel) 
-            {
-                if (!string.IsNullOrEmpty(guest)) 
-                {
-                    empty = false;
-                    break;
-                }
-            }
-
             // can't check out if hotel is empty
-            if (empty) 
+            if (isEmpty(hotel)) 
             {
                 WriteWithColor($"Error :(\nThere is no one in the hotel to check out.\n", ConsoleColor.Red);
                 return;
