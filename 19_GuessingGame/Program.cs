@@ -11,7 +11,6 @@ namespace GuessingGame
             io.StartGame();
 
             while (!io.PromptGuess()) { }
-            
         }
     }
 }
