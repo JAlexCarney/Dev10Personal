@@ -18,21 +18,5 @@ namespace RougeLikePersonal.Tiles
             Color = ConsoleColor.DarkGray;
             EntityOnTile = null;
         }
-
-        public void Draw()
-        {
-            Console.BackgroundColor = Color;
-            if (EntityOnTile != null && EntityOnTile.IsActive)
-            {
-                Console.ForegroundColor = EntityOnTile.Color;
-                Console.Write(EntityOnTile.DisplayChar);
-            }
-            else 
-            {
-                Console.Write(" ");
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-        }
     }
 }

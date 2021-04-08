@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RougeLikePersonal.Entities
 {
-    class Wall : IEntity
+    public class Wall : IEntity
     {
         public int X { get; set; }
         public int Y { get; set; }

@@ -13,5 +13,38 @@ namespace RougeLikePersonal
         ConsoleColor Color { get; set; }
         GameBoard ParentBoard { get; set; }
 
+        public bool Move(Directions direction) 
+        {
+            int xToGo = X;
+            int yToGo = Y;
+
+            switch (direction) 
+            {
+                case Directions.UP:
+                    yToGo--;
+                    break;
+                case Directions.DOWN:
+                    yToGo++;
+                    break;
+                case Directions.LEFT:
+                    xToGo--;
+                    break;
+                case Directions.RIGHT:
+                    xToGo++;
+                    break;
+            }
+
+            if (ParentBoard.IsOccupied(xToGo, yToGo)) 
+            {
+                return false;
+            }
+
+            // valid move
+            ParentBoard.Place(this, xToGo, yToGo);
+            ParentBoard.Remove(X, Y);
+            X = xToGo;
+            Y = yToGo;
+            return true;
+        }
     }
 }

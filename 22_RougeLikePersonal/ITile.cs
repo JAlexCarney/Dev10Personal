@@ -10,6 +10,20 @@ namespace RougeLikePersonal
         public int Row { get; set; }
         public ConsoleColor Color { get; set; }
         public IEntity EntityOnTile { get; set; }
-        public void Draw();
+        public void Draw()
+        {
+            Console.BackgroundColor = Color;
+            if (EntityOnTile != null && EntityOnTile.IsActive)
+            {
+                Console.ForegroundColor = EntityOnTile.Color;
+                Console.Write(EntityOnTile.DisplayChar);
+            }
+            else
+            {
+                Console.Write(" ");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+        }
     }
 }

@@ -6,8 +6,8 @@ namespace RougeLikePersonal
     {
         static void Main(string[] args)
         {
-            GameBoard board = new GameBoard(30, 15);
-            board.Draw();
+            GameController game = new GameController();
+            game.Run();
         }
     }
 }

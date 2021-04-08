@@ -1,0 +1,44 @@
+	--- Capsule Hotel Simulator ---
+
+Classes
+	- Program
+		Methods
+			- Main // Creates a Hotel Controller and calls run
+
+	- Static ConsoleIO
+		Methods (static)
+			- Get int in range
+			- Get non empty string
+			- Propmt Continue
+			- WriteWithColor
+
+	- HotelController
+		Fields/Properties
+			- Hotel
+		Methods
+			- run create hotel and enter menue loop
+			- display menue and allow selection
+
+	- Guest
+		Fields/Properties
+			- string Name
+		    - int DurationOfStay
+		Methods
+			- Constructor (Name, StayTime)
+
+	- Room
+		Fields/Properties
+			- Guest
+		Methods
+			- Constructor (Name, StayTime)
+
+	- Hotel
+		Fields/Properties
+			- Rooms Array
+			- Cost per Night
+		Methods
+			- Check In // create a new guest and put them in a room
+			- Check Out // Displays Total cost for guest
+			- Veiw
+			- isEmpty
+			- isFull

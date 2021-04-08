@@ -34,6 +34,26 @@ namespace RougeLikePersonal
             }
         }
 
+        public bool IsOccupied(int x, int y) 
+        {
+            return _data[x, y].EntityOnTile != null;
+        }
+
+        public void Remove(int x, int y) 
+        {
+            _data[x, y].EntityOnTile = null;
+        }
+
+        public bool Place(IEntity entity, int x, int y) 
+        {
+            if (_data[x,y].EntityOnTile == null) 
+            {
+                _data[x, y].EntityOnTile = entity;
+                return true;
+            }
+            return false;
+        }
+
         public void Draw() 
         {
             for (int y = 0; y < _data.GetLength(1); y++)
