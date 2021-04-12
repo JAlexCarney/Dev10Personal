@@ -10,6 +10,8 @@ namespace RougeLikePersonal
         int HealthMax { get; set; }
         int Power { get; set; }
 
+        char DisplayChar { get; set; }
+
         void Attack(ICharacter attacking);
         void Spawn();
         void Die();

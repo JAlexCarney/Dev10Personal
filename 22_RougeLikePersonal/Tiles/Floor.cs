@@ -15,7 +15,7 @@ namespace RougeLikePersonal.Tiles
         {
             Col = col;
             Row = row;
-            Color = ConsoleColor.DarkGray;
+            Color = ConsoleColor.Black;
             EntityOnTile = null;
         }
     }

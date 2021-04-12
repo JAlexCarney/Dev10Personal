@@ -13,6 +13,16 @@ namespace RougeLikePersonal.Entities
         public ConsoleColor Color { get; set; }
         public GameBoard ParentBoard { get; set; }
 
+        public void Update()
+        {
+            // Do Nothing
+        }
+
+        public void MovedIntoBy(IEntity other) 
+        {
+            //Console.Beep();
+        }
+
         public Wall(GameBoard parent, int x, int y) 
         {
             ParentBoard = parent;
@@ -20,7 +30,7 @@ namespace RougeLikePersonal.Entities
             Y = y;
             DisplayChar = '█';
             IsActive = true;
-            Color = ConsoleColor.DarkBlue;
+            Color = ConsoleColor.DarkGray;
         }
     }
 }

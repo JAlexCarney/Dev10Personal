@@ -13,6 +13,10 @@ namespace RougeLikePersonal
         ConsoleColor Color { get; set; }
         GameBoard ParentBoard { get; set; }
 
+        public void MovedIntoBy(IEntity other);
+
+        public void Update();
+
         public bool Move(Directions direction) 
         {
             int xToGo = X;
@@ -36,6 +40,7 @@ namespace RougeLikePersonal
 
             if (ParentBoard.IsOccupied(xToGo, yToGo)) 
             {
+                ParentBoard.Data[xToGo, yToGo].EntityOnTile.MovedIntoBy(this);
                 return false;
             }
 

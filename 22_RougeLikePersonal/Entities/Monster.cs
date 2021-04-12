@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RougeLikePersonal.Entities
 {
-    public class Hero : IEntity, ICharacter
+    class Monster : IEntity, ICharacter
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -16,32 +16,39 @@ namespace RougeLikePersonal.Entities
         public int HealthMax { get; set; }
         public int Power { get; set; }
 
-        public int Money { get; set; }
+        private readonly Random _rng = new Random();
 
-        public Hero(GameBoard parent, int x, int y) 
+        public Monster(GameBoard parent, int x, int y)
         {
             ParentBoard = parent;
             X = x;
             Y = y;
-            Money = 0;
-            DisplayChar = '☺';
+            DisplayChar = 'M';
             IsActive = true;
             HealthMax = 30;
             Health = HealthMax;
-            Power = 2;
-            Color = ConsoleColor.DarkYellow;
+            Power = 1;
+            Color = ConsoleColor.DarkRed;
         }
 
-        public void Update() 
+        public void Update()
         {
-            // Do Nothing
-        }
+            int direction = _rng.Next(8);
 
-        public void MovedIntoBy(IEntity other) 
-        {
-            if (other is Monster monster) 
+            switch (direction) 
             {
-                GameController.Battle(monster, this);
+                case 0:
+                    ((IEntity)this).Move(Directions.UP);
+                    break;
+                case 1:
+                    ((IEntity)this).Move(Directions.DOWN);
+                    break;
+                case 2:
+                    ((IEntity)this).Move(Directions.LEFT);
+                    break;
+                case 3:
+                    ((IEntity)this).Move(Directions.RIGHT);
+                    break;
             }
         }
 
@@ -53,7 +60,17 @@ namespace RougeLikePersonal.Entities
 
         public void Die()
         {
-            // rip Game Over
+            CombatLog.LogCombat($"{DisplayChar} died!");
+
+            ParentBoard.Data[X, Y].EntityOnTile = null;
+        }
+
+        public void MovedIntoBy(IEntity other)
+        {
+            if (other is Hero hero)
+            {
+                GameController.Battle(hero, this);
+            }
         }
 
         public void Spawn()
