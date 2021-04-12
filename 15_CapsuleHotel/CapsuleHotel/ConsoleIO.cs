@@ -71,6 +71,40 @@ namespace CapsuleHotel
         }
 
         /// <summary>
+        /// Gets a date and/or time from the user
+        /// </summary>
+        /// <param name="prompt">The prompt shown to the user</param>
+        /// <returns>The time the user entered</returns>
+        static DateTime GetDateTime(string prompt)
+        {
+            string userString;
+            DateTime output;
+            do
+            {
+                Console.Write(prompt);
+                userString = Console.ReadLine();
+            }
+            while (!DateTime.TryParse(userString, out output));
+            return output;
+        }
+
+        /// <summary>
+        /// Gets a date and/or time from the user
+        /// </summary>
+        /// <param name="prompt">The prompt shown to the user</param>
+        /// <returns>The time the user entered</returns>
+        public static DateTime GetFutureDateTime(string prompt)
+        {
+            DateTime output;
+            do
+            {
+                output = GetDateTime(prompt);
+            }
+            while (output.Subtract(DateTime.Now).Ticks <= 0);
+            return output;
+        }
+
+        /// <summary>
         /// repeatedly Prompts the user for an int and only returns once they have
         /// entered a valid int in the given range
         /// </summary>

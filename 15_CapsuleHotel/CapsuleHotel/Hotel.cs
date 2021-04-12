@@ -79,7 +79,7 @@ namespace CapsuleHotel
                 }
                 else
                 {
-                    ConsoleIO.WriteWithColor($"{_guests[i]} -> {_guests[i].Nights} Nights\n", ConsoleColor.DarkYellow);
+                    ConsoleIO.WriteWithColor($"{_guests[i]}\n", ConsoleColor.DarkYellow);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace CapsuleHotel
             string guestName = ConsoleIO.GetString($"Guest Name: ");
 
             // Get the length of their stay
-            int lengthOfStay = ConsoleIO.GetIntInRange($"Length of Stay: ", 1, int.MaxValue);
+            DateTime checkOutDate = ConsoleIO.GetFutureDateTime($"Check Out Date: ");
 
             // attempt to fill room
             bool isCheckedIn = false;
@@ -116,7 +116,7 @@ namespace CapsuleHotel
 
                 if (_guests[roomIndex] == null)
                 {
-                    _guests[roomIndex] = new Guest(guestName, lengthOfStay);
+                    _guests[roomIndex] = new Guest(guestName, DateTime.Now, checkOutDate);
                     ConsoleIO.WriteWithColor($"Success :)\n{guestName} is booked in capsule #{roomIndex + 1}.\n", ConsoleColor.Green);
                     isCheckedIn = true;
                 }
@@ -153,7 +153,8 @@ namespace CapsuleHotel
 
                 if (_guests[roomIndex] != null)
                 {
-                    ConsoleIO.WriteWithColor($"Success :)\n{_guests[roomIndex]} checked out from capsule #{roomIndex + 1} and was charged {(_guests[roomIndex].Nights * _costPerNight):C}.\n", ConsoleColor.Green);
+                    TimeSpan lengthOfStay = _guests[roomIndex].CheckOutTime.Subtract(_guests[roomIndex].CheckInTime);
+                    ConsoleIO.WriteWithColor($"Success :)\n{_guests[roomIndex].Name} checked out from capsule #{roomIndex + 1}\nThey were charged {((lengthOfStay.Days + 1) * _costPerNight):C}.\nThey stayed for {lengthOfStay.Days+1} nights.\n", ConsoleColor.Green);
                     _guests[roomIndex] = null;
                     isCheckedIn = false;
                 }

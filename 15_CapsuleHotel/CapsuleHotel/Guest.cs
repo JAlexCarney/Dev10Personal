@@ -6,18 +6,21 @@ namespace CapsuleHotel
 {
     class Guest
     {
-        public int Nights { get; private set; }
+        
         public string Name { get; private set; }
+        public DateTime CheckOutTime { get; private set; }
+        public DateTime CheckInTime { get; private set; }
 
-        public Guest(string name, int nights) 
+        public Guest(string name, DateTime checkInTime, DateTime checkOutTime) 
         {
             Name = name;
-            Nights = nights;
+            CheckInTime = checkInTime;
+            CheckOutTime = checkOutTime;
         }
 
         public override string ToString()
         {
-            return Name;
+            return $"{Name} <{CheckInTime:d} => {CheckOutTime:d}>";
         }
     }
 }
