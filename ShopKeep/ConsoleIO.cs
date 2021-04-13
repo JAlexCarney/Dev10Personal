@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CapsuleHotel
+namespace ShopKeep
 {
     public static class ConsoleIO
     {
@@ -140,7 +140,7 @@ namespace CapsuleHotel
             WriteWithColor(" /  \\    | '   ", color);
         }
 
-        public static void DrawShopKeep(char[] forSale, ConsoleColor[] colors) 
+        public static void DrawShopKeep(List<Item> items, int capacity) 
         {
             WriteWithColor("   _______\n", ConsoleColor.Blue);
             WriteWithColor("  / / | \\ \\\n", ConsoleColor.Blue);
@@ -152,33 +152,34 @@ namespace CapsuleHotel
             int row = Console.CursorTop - 4;
             Console.SetCursorPosition(8, row);
             WriteWithColor(" ", ConsoleColor.Blue);
-            for (int i = 0; i < forSale.Length; i++) 
+            for (int i = 0; i < items.Count; i++) 
             {
-                WriteWithColor($" {forSale[i]} ", colors[i]);
+                WriteWithColor($" {items[i].DisplayChar} ", items[i].DisplayColor);
             }
             Console.SetCursorPosition(8, row+1);
             WriteWithColor("▄", ConsoleColor.Blue);
-            for (int i = 0; i < forSale.Length; i++)
+            for (int i = 0; i < capacity; i++)
             {
                 WriteWithColor($"▄█▄", ConsoleColor.Blue);
             }
             WriteWithColor("▄", ConsoleColor.Blue);
             Console.SetCursorPosition(8, row+2);
             WriteWithColor("\\", ConsoleColor.Blue);
-            for (int i = 0; i < forSale.Length; i++)
+            for (int i = 0; i < capacity; i++)
             {
                 WriteWithColor($"___", ConsoleColor.Blue);
             }
             WriteWithColor("/", ConsoleColor.Blue);
-            DrawHorse(11 + (forSale.Length * 3), row, ConsoleColor.Blue);
+            DrawHorse(11 + (capacity * 3), row, ConsoleColor.Blue);
             Console.SetCursorPosition(8, row + 3);
             WriteWithColor("0", ConsoleColor.Blue);
-            for (int i = 0; i < forSale.Length; i++)
+            for (int i = 0; i < capacity; i++)
             {
                 WriteWithColor($"---", ConsoleColor.Blue);
             }
             WriteWithColor("0", ConsoleColor.Blue);
             Console.WriteLine();
+            WriteWithColor("============================================\n", ConsoleColor.Blue);
         }
     }
 }

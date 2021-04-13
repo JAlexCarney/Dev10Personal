@@ -6,7 +6,7 @@ namespace CapsuleHotel
 {
     class HotelController
     {
-        public Hotel hotel { get; set; }
+        public IHotel Hotel { get; set; }
         public double CostPerNight { get; set; }
 
         public void Run() 
@@ -15,13 +15,30 @@ namespace CapsuleHotel
             ConsoleIO.WriteWithColor("Welcome to Capsule-Capsule\n", ConsoleColor.Yellow);
             ConsoleIO.WriteWithColor("===========================\n", ConsoleColor.DarkYellow);
 
-            // initialize hotel array
-            int hotelCapacity = ConsoleIO.GetIntInRange("Enter the number of capsules available: ", 1, int.MaxValue);
-            double costPerNight = ConsoleIO.GetDoubleInRange("Enter the cost per night of a capsule: ", 0.0, double.MaxValue);
-            hotel = new Hotel(hotelCapacity, costPerNight);
+            // decide on a IHotel Implementaion
+            ConsoleIO.WriteWithColor("\nWhich Hotel Type are you using :\n", ConsoleColor.Yellow);
+            ConsoleIO.WriteWithColor("1. Finite\n", ConsoleColor.Yellow);
+            ConsoleIO.WriteWithColor("2. Infinite\n", ConsoleColor.Yellow);
+
+            int choice = ConsoleIO.GetIntInRange("Enter choice : ", 1, 2);
+
+            switch (choice) 
+            {
+                case 1:
+                    Hotel = new Hotel(
+                        ConsoleIO.GetIntInRange("Enter the number of capsules available: ", 1, int.MaxValue),
+                        ConsoleIO.GetDoubleInRange("Enter the cost per night of a capsule: ", 0.0, double.MaxValue));
+                    break;
+                case 2:
+                    Hotel = new InfiniteHotel(
+                        ConsoleIO.GetDoubleInRange("Enter the cost per night of a capsule: ", 0.0, double.MaxValue));
+                    break;
+            }
+
+            
 
             // Display success
-            ConsoleIO.WriteWithColor($"\nThere are {hotel.Length} unoccupied capsules ready to be booked.\n", ConsoleColor.Green);
+            ConsoleIO.WriteWithColor($"\nThere are {Hotel.Capacity} unoccupied capsules ready to be booked.\n", ConsoleColor.Green);
             ConsoleIO.PromptContinue();
 
             // enter menu
@@ -86,13 +103,13 @@ namespace CapsuleHotel
                 switch (selection)
                 {
                     case 1: // Check In
-                        hotel.CheckIn();
+                        Hotel.CheckIn();
                         break;
                     case 2: // Check Out
-                        hotel.CheckOut();
+                        Hotel.CheckOut();
                         break;
                     case 3: // View Guests
-                        hotel.ViewHotel();
+                        Hotel.ViewHotel();
                         break;
                     case 4: // Exit
                         if (Exit())

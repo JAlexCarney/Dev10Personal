@@ -4,48 +4,16 @@ using System.Text;
 
 namespace CapsuleHotel
 {
-    class Hotel : IHotel
+    class InfiniteHotel : IHotel
     {
-        private Guest[] _guests;
+        private List<Guest> _guests;
         private double _costPerNight;
-        public string Capacity { get => $"{_guests.Length}"; set { } }
+        public string Capacity { get => "∞"; set { } }
 
-        public Hotel(int numGuests, double costPerNight) 
+        public InfiniteHotel(double costPerNight)
         {
-            _guests = new Guest[numGuests];
+            _guests = new List<Guest>();
             _costPerNight = costPerNight;
-        }
-
-        /// <summary>
-        /// Returns true if there are no guests
-        /// </summary>
-        /// <returns>true if there are no guests</returns>
-        private bool IsEmpty()
-        {
-            foreach (Guest g in _guests)
-            {
-                if (g != null)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Returns true if there are no open rooms
-        /// </summary>
-        /// <returns>true if there are no open rooms</returns>
-        private bool IsFull()
-        {
-            foreach (Guest g in _guests)
-            {
-                if (g == null)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         /// <summary>
@@ -57,8 +25,16 @@ namespace CapsuleHotel
             ConsoleIO.WriteWithColor("View Guests\n", ConsoleColor.Yellow);
             ConsoleIO.WriteWithColor("===========\n", ConsoleColor.DarkYellow);
 
+            // make sure hotel isn't empty
+            // can't check out if hotel is empty
+            if (_guests.Count == 0)
+            {
+                ConsoleIO.WriteWithColor($"Error :(\nThere is no one in the hotel to check out.\n", ConsoleColor.Red);
+                return;
+            }
+
             // Get room admin wants to view around
-            int roomIndex = ConsoleIO.GetIntInRange($"Capsule #[1-{_guests.Length}] ", 1, _guests.Length) - 1;
+            int roomIndex = ConsoleIO.GetIntInRange($"Capsule #[1-{_guests.Count}] ", 1, _guests.Count) - 1;
 
             // set index to start viewing
             int veiwingIndex = roomIndex - 5;
@@ -66,7 +42,7 @@ namespace CapsuleHotel
 
             // set index to end viewing
             int endIndex = roomIndex + 5;
-            if (endIndex > _guests.Length - 1) { endIndex = (_guests.Length - 1); }
+            if (endIndex > _guests.Count - 1) { endIndex = (_guests.Count - 1); }
 
             // display selected rooms
             ConsoleIO.WriteWithColor("\nCapsule : Guest\n", ConsoleColor.Yellow);
@@ -93,14 +69,6 @@ namespace CapsuleHotel
             ConsoleIO.WriteWithColor("Guest Check In\n", ConsoleColor.Yellow);
             ConsoleIO.WriteWithColor("==============\n", ConsoleColor.DarkYellow);
 
-            // make sure hotel isn't full
-            // can't check out if hotel is empty
-            if (IsFull())
-            {
-                ConsoleIO.WriteWithColor($"Error :(\nThe hotel is fully booked.\n", ConsoleColor.Red);
-                return;
-            }
-
             // Get name of person admin wants to check in
             string guestName = ConsoleIO.GetString($"Guest Name: ");
 
@@ -110,20 +78,10 @@ namespace CapsuleHotel
             // attempt to fill room
             bool isCheckedIn = false;
             while (!isCheckedIn)
-            {
-                // Get room admin wants to check them into
-                int roomIndex = ConsoleIO.GetIntInRange($"Capsule #[1-{_guests.Length}] ", 1, _guests.Length) - 1;
-
-                if (_guests[roomIndex] == null)
-                {
-                    _guests[roomIndex] = new Guest(guestName, DateTime.Now, checkOutDate);
-                    ConsoleIO.WriteWithColor($"Success :)\n{guestName} is booked in capsule #{roomIndex + 1}.\n", ConsoleColor.Green);
-                    isCheckedIn = true;
-                }
-                else
-                {
-                    ConsoleIO.WriteWithColor($"Error :(\nCapsule #{roomIndex + 1} is already occupied.\n", ConsoleColor.Red);
-                }
+            {                
+                _guests.Add(new Guest(guestName, DateTime.Now, checkOutDate));
+                ConsoleIO.WriteWithColor($"Success :)\n{guestName} is booked in a capsule.\n", ConsoleColor.Green);
+                isCheckedIn = true;
             }
         }
 
@@ -138,7 +96,7 @@ namespace CapsuleHotel
 
             // make sure hotel isn't empty
             // can't check out if hotel is empty
-            if (IsEmpty())
+            if (_guests.Count == 0)
             {
                 ConsoleIO.WriteWithColor($"Error :(\nThere is no one in the hotel to check out.\n", ConsoleColor.Red);
                 return;
@@ -149,13 +107,13 @@ namespace CapsuleHotel
             while (isCheckedIn)
             {
                 // Get room admin wants to check them into
-                int roomIndex = ConsoleIO.GetIntInRange($"Capsule #[1-{_guests.Length}] ", 1, _guests.Length) - 1;
+                int roomIndex = ConsoleIO.GetIntInRange($"Capsule #[1-{_guests.Count}] ", 1, _guests.Count) - 1;
 
                 if (_guests[roomIndex] != null)
                 {
                     TimeSpan lengthOfStay = _guests[roomIndex].CheckOutTime.Subtract(_guests[roomIndex].CheckInTime);
-                    ConsoleIO.WriteWithColor($"Success :)\n{_guests[roomIndex].Name} checked out from capsule #{roomIndex + 1}\nThey were charged {((lengthOfStay.Days + 1) * _costPerNight):C}.\nThey stayed for {lengthOfStay.Days+1} nights.\n", ConsoleColor.Green);
-                    _guests[roomIndex] = null;
+                    ConsoleIO.WriteWithColor($"Success :)\n{_guests[roomIndex].Name} checked out from capsule #{roomIndex + 1}\nThey were charged {((lengthOfStay.Days + 1) * _costPerNight):C}.\nThey stayed for {lengthOfStay.Days + 1} nights.\n", ConsoleColor.Green);
+                    _guests.RemoveAt(roomIndex);
                     isCheckedIn = false;
                 }
                 else
