@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapsuleHotel", "CapsuleHotel.csproj", "{9884AC2D-C139-4F7E-9F81-1FD67EFDD49E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CapsuleHotel", "CapsuleHotel.csproj", "{9884AC2D-C139-4F7E-9F81-1FD67EFDD49E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "..\TestProject1\TestProject1.csproj", "{D69DFF21-C800-476A-8A89-735EFC163C29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9884AC2D-C139-4F7E-9F81-1FD67EFDD49E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9884AC2D-C139-4F7E-9F81-1FD67EFDD49E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9884AC2D-C139-4F7E-9F81-1FD67EFDD49E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D69DFF21-C800-476A-8A89-735EFC163C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D69DFF21-C800-476A-8A89-735EFC163C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D69DFF21-C800-476A-8A89-735EFC163C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D69DFF21-C800-476A-8A89-735EFC163C29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
