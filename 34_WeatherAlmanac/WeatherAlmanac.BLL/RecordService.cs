@@ -13,7 +13,7 @@ namespace WeatherAlmanac.BLL
             _repo = implementation;
         }
 
-        public Result<DateRecord> Add(DateRecord record) => _repo.Add(record);
+        public Result<DateRecord> Add(DateRecord record) => _repo.Add(record); // TODO: Add check for duplicate entry
 
         public Result<DateRecord> Edit(DateRecord record) => _repo.Edit(record);
 

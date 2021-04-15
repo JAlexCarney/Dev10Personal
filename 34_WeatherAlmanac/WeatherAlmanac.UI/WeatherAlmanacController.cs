@@ -92,6 +92,9 @@ namespace WeatherAlmanac.UI
                         // Quit
                         return;
                 }
+
+                // Prompt Continue so user can see printed output before clear
+                ConsoleIO.PromptContinue();
             }
         }
     }
