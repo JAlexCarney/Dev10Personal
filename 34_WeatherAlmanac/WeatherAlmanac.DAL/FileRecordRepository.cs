@@ -12,11 +12,23 @@ namespace WeatherAlmanac.DAL
     {
         private string _fileName;
         private List<DateRecord> _records;
+        private ILogger _logger;
 
-        public FileRecordRepository()
+        public FileRecordRepository(ILogger logger)
         {
             _fileName = @"almanac.csv";
             _records = new List<DateRecord>();
+            _logger = logger;
+            logger.Log("Created Repository");
+            Load();
+        }
+
+        public FileRecordRepository(string fileName, ILogger logger)
+        {
+            _fileName = fileName;
+            _records = new List<DateRecord>();
+            _logger = logger;
+            logger.Log("Created Repository");
             Load();
         }
 
@@ -58,25 +70,27 @@ namespace WeatherAlmanac.DAL
             {
                 using (StreamWriter sw = new StreamWriter(_fileName))
                 {
-
                     foreach (var record in _records)
                     {
                         sw.WriteLine($"{record.Date},{record.HighTemp},{record.LowTemp},{record.Humidity},{record.Description}");
                     }
                 }
             }
+            else 
+            {
+                throw new Exception("Failed to find file to write to.");
+            }
         }
 
         private int FindIndex(DateTime date) 
         {
-            int index = 0;
             for (int i = 0; i < _records.Count; i++) 
             {
                 if (_records[i].Date.Day == date.Day
                     && _records[i].Date.Month == date.Month
                     && _records[i].Date.Year == date.Year)
                 {
-                    return index;
+                    return i;
                 }
             }
             return -1;
@@ -89,18 +103,40 @@ namespace WeatherAlmanac.DAL
             result.Success = true;
             result.Data = record;
             _records.Add(record);
-            Save();
+            try
+            {
+                Save();
+            }
+            catch (Exception e)
+            {
+                _logger.Log(e.Message);
+                result.Success = false;
+            }
+            
             return result;
         }
 
-        public Result<DateRecord> Edit(DateRecord record)
+        public Result<DateRecord> Edit(DateRecord oldRecord, DateRecord newRecord)
         {
-            int index = FindIndex(record.Date);
-            _records[index] = record;
+            int index = -1;
+            if (oldRecord != null) 
+            {
+                index = FindIndex(oldRecord.Date);
+            }
             var result = new Result<DateRecord>();
-            result.Message = "Successfully replaced record in database";
-            result.Success = true;
-            result.Data = record;
+            if (index == -1)
+            {
+                result.Message = "Could not find record to replace.";
+                result.Success = false;
+                result.Data = oldRecord;
+            }
+            else 
+            {
+                _records[index] = newRecord;
+                result.Message = "Successfully replaced record in database";
+                result.Success = true;
+                result.Data = newRecord;
+            }
             Save();
             return result;
         }

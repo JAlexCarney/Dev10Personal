@@ -15,6 +15,11 @@ namespace ShopKeep
         {
             ForSale = new List<Item>();
             Capacity = capacity;
+
+            for (int i = 0; i < Capacity; i++) 
+            {
+                ForSale.Add(Item.RandomItem());
+            }
         }
     }
 }

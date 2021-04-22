@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopKeep
 {
-    class ShopGame
+    class ShopGameController
     {
         public ShopKeeper shopKeeper { get; set; }
         private Random rng = new Random();
@@ -27,10 +27,10 @@ namespace ShopKeep
                 // Draw cart and ground
                 Console.Clear();
                 ConsoleIO.DrawShopKeep(shopKeeper.Cart.ForSale, shopKeeper.Cart.Capacity);
-                ConsoleIO.WriteWithColor($"Name     : {shopKeeper.Name}\n", ConsoleColor.Blue);
-                ConsoleIO.WriteWithColor($"Distance : {shopKeeper.DistanceTraveled} miles\n", ConsoleColor.Blue);
-                ConsoleIO.WriteWithColor($"Gold     : {shopKeeper.Gold}$\n", ConsoleColor.Blue);
-                ConsoleIO.WriteWithColor("============================================\n", ConsoleColor.Blue);
+                ConsoleIO.WriteWithColor($"Name     : {shopKeeper.Name}\n", ConsoleColor.Cyan);
+                ConsoleIO.WriteWithColor($"Distance : {shopKeeper.DistanceTraveled} miles\n", ConsoleColor.Cyan);
+                ConsoleIO.WriteWithColor($"Gold     : {shopKeeper.Gold}$\n", ConsoleColor.Cyan);
+                ConsoleIO.WriteWithColor("============================================\n", ConsoleColor.Cyan);
 
                 if (shopKeeper.DistanceTraveled == 0) 
                 {
@@ -42,8 +42,9 @@ namespace ShopKeep
 
                 if (shopKeeper.DistanceTraveled % 500 == 0 && rng.NextDouble() < theifChance) 
                 {
-                    ConsoleIO.WriteWithColor($"*You travel 100 miles and encounter THIEVES!*\n", ConsoleColor.Yellow);
-                    ConsoleIO.WriteWithColor($"*{theifSteals} Gold is stolen*\n", ConsoleColor.Yellow);
+                    ConsoleIO.WriteWithColor($"*You travel 100 miles*\n", ConsoleColor.Yellow);
+                    ConsoleIO.WriteWithColor($"*You encounter THIEVES!*\n", ConsoleColor.DarkRed);
+                    ConsoleIO.WriteWithColor($"*{theifSteals} Gold is stolen*\n", ConsoleColor.DarkRed);
                     shopKeeper.Gold -= theifSteals;
                     theifSteals += 10;
                 }
@@ -58,7 +59,8 @@ namespace ShopKeep
                     switch (encounter)
                     {
                         case 0:
-                            ConsoleIO.WriteWithColor($"*You travel 100 miles and encounter a potential customer*\n", ConsoleColor.Yellow);
+                            ConsoleIO.WriteWithColor($"*You travel 100 miles*\n", ConsoleColor.Yellow); 
+                            ConsoleIO.WriteWithColor($"*You encounter a potential customer*\n", ConsoleColor.DarkGreen);
                             break;
                         default:
                             ConsoleIO.WriteWithColor($"*You travel 100 miles uneventfully*\n", ConsoleColor.Yellow);

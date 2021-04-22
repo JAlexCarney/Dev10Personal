@@ -21,7 +21,7 @@ namespace WeatherAlmanac.DAL
             throw new NotImplementedException();
         }
 
-        public Result<DateRecord> Edit(DateRecord record)
+        public Result<DateRecord> Edit(DateRecord oldRecord, DateRecord newRecord)
         {
             throw new NotImplementedException();
         }

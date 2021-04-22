@@ -12,6 +12,6 @@ namespace WeatherAlmanac.Core
         Result<DateRecord> Get(DateTime date);
         Result<DateRecord> Add(DateRecord record);
         Result<DateRecord> Remove(DateTime date);
-        Result<DateRecord> Edit(DateRecord record);
+        Result<DateRecord> Edit(DateTime date, DateRecord dateRecord);
     }
 }

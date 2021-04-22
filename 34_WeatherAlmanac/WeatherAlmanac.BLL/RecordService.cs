@@ -15,7 +15,7 @@ namespace WeatherAlmanac.BLL
 
         public Result<DateRecord> Add(DateRecord record) => _repo.Add(record); // TODO: Add check for duplicate entry
 
-        public Result<DateRecord> Edit(DateRecord record) => _repo.Edit(record);
+        public Result<DateRecord> Edit(DateTime date, DateRecord newRecord) => _repo.Edit(Get(date).Data, newRecord);
 
         public Result<DateRecord> Get(DateTime date) 
         {
@@ -41,7 +41,29 @@ namespace WeatherAlmanac.BLL
 
         public Result<List<DateRecord>> LoadRange(DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            var records = _repo.GetAll();
+            var result = new Result<List<DateRecord>>
+            {
+                Data = new List<DateRecord>()
+            };
+            foreach (var record in records.Data) 
+            {
+                if (record.Date.Subtract(start).Ticks >= 0 && end.Subtract(record.Date).Ticks >= 0) 
+                {
+                    result.Data.Add(record);
+                }
+            }
+            if (result.Data.Count == 0)
+            {
+                result.Success = false;
+                result.Message = "Failed to find any records in range.";
+            }
+            else 
+            {
+                result.Success = true;
+                result.Message = "Read Files From Database.";
+            }
+            return result;
         }
 
         public Result<DateRecord> Remove(DateTime date) => _repo.Remove(date);

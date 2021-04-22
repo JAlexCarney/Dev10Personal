@@ -8,24 +8,14 @@ namespace WeatherAlmanac.UI
     {
         IRecordService _recordService;
 
+        public WeatherAlmanacController(IRecordService recordService) 
+        {
+            _recordService = recordService;
+        }
+
         public void Run() 
         {
-            // Display Header
-            ConsoleIO.DisplayHeader("Welcome to the Weather Almanac.");
-            ConsoleIO.WriteWithColor("What mode would you like to run in?\n\n", ConsoleColor.DarkYellow);
-
-            // Display Menu Options
-            ConsoleIO.DisplayMenuOptions(
-                "Live",
-                "Test");
-
-            // Prompt for implementation
-            int choice = ConsoleIO.GetIntInRange("Select mode: ", 1, 2);
-            ApplicationMode mode = (ApplicationMode)(choice - 1);
-
-            // Create Record Service with desired mode
-            _recordService = RecordServiceFactory.GetRecordService(mode);
-
+            
             // Enter Main Menu Loop
             MenuLoop();
         }
@@ -69,6 +59,22 @@ namespace WeatherAlmanac.UI
                         break;
                     case 2:
                         // View Records by Date Range
+                        var resultList = _recordService.LoadRange(
+                            ConsoleIO.GetDateTime("Enter start date: "),
+                            ConsoleIO.GetDateTime("Enter end date: "));
+                        if (resultList.Success)
+                        {
+                            ConsoleIO.DisplaySuccess(resultList.Message);
+
+                            foreach (var record in resultList.Data) 
+                            {
+                                ConsoleIO.DisplayDateRecord(record);
+                            }
+                        }
+                        else
+                        {
+                            ConsoleIO.DisplayFailure(resultList.Message);
+                        }
                         break;
                     case 3:
                         // Add Record
@@ -84,9 +90,27 @@ namespace WeatherAlmanac.UI
                         break;
                     case 4:
                         // Edit Record
+                        result = _recordService.Edit(ConsoleIO.GetDateTime("Enter Date to be Edited: "), ConsoleIO.GetDateRecord());
+                        if (result.Success)
+                        {
+                            ConsoleIO.DisplaySuccess(result.Message);
+                        }
+                        else
+                        {
+                            ConsoleIO.DisplayFailure(result.Message);
+                        }
                         break;
                     case 5:
                         // Delete Record
+                        result = _recordService.Remove(ConsoleIO.GetDateTime("Enter the date to remove: "));
+                        if (result.Success)
+                        {
+                            ConsoleIO.DisplaySuccess(result.Message);
+                        }
+                        else
+                        {
+                            ConsoleIO.DisplayFailure(result.Message);
+                        }
                         break;
                     case 6:
                         // Quit

@@ -5,11 +5,23 @@ namespace WeatherAlmanac.BLL
 {
     public static class RecordServiceFactory
     {
-        public static IRecordService GetRecordService(ApplicationMode mode) 
+        public static IRecordService GetRecordService(ApplicationMode mode, string LogMode = "null") 
         {
             if (mode == ApplicationMode.LIVE)
             {
-                return new RecordService(new FileRecordRepository());
+                if (LogMode.ToLower() == "file")
+                {
+                    return new RecordService(new FileRecordRepository(new FileLogger("ErrorLog.txt")));
+                }
+                else if (LogMode.ToLower() == "console")
+                {
+                    return new RecordService(new FileRecordRepository(new ConsoleLogger()));
+                }
+                else 
+                {
+                    return new RecordService(new FileRecordRepository(new NullLogger()));
+                }
+                
             }
             else
             {
