@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopKeep
+namespace ShopKeep.Core
 {
-    class ShopKeeper
+    public class ShopKeeper
     {
         public string Name { get; set; }
         public int Gold { get; set; }

@@ -4,9 +4,9 @@ namespace ShopKeep
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            ShopGame game = new ShopGame();
+            var game = new ShopGameController();
             game.Run();
         }
     }

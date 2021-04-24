@@ -19,9 +19,19 @@ namespace WeatherAlmanac.UI
 
             // Prompt for implementation
             int choice = ConsoleIO.GetIntInRange("Select mode: ", 1, 2);
-            ApplicationMode mode = (ApplicationMode)(choice - 1);
+            ApplicationMode appMode = (ApplicationMode)(choice - 1);
+            
+            // Display Menu Options
+            ConsoleIO.DisplayMenuOptions(
+                "Null",
+                "Console",
+                "File");
 
-            NinjectContainer.Configure(mode);
+            // Prompt for implementation
+            choice = ConsoleIO.GetIntInRange("Select mode: ", 1, 3);
+            LoggerMode logMode = (LoggerMode)(choice - 1);
+
+            NinjectContainer.Configure(appMode, logMode);
 
             var wc = NinjectContainer.Kernel.Get<WeatherAlmanacController>();
             wc.Run();

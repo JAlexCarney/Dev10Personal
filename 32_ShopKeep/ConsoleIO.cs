@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace ShopKeep
 {
@@ -141,9 +138,34 @@ namespace ShopKeep
             WriteWithColor(" /  \\    | '   ", color);
         }
 
+        public static bool GetYesOrNo(string prompt)
+        {
+            string input;
+            do
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(prompt);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                input = Console.ReadLine().ToLower();
+                Console.ForegroundColor = ConsoleColor.White;
+                if (!string.IsNullOrEmpty(input))
+                {
+                    if (input == "y")
+                    {
+                        return true;
+                    }
+                    else if (input == "n")
+                    {
+                        return false;
+                    }
+                }
+            }
+            while (true);
+        }
+
         public static ConsoleColor RandomConsoleColor() 
         {
-            Random rng = new Random();
+            var rng = new Random();
             ConsoleColor color;
             double r = rng.NextDouble();
             if (r > 5.0/6.0)
@@ -171,53 +193,6 @@ namespace ShopKeep
                 color = ConsoleColor.Magenta;
             }
             return color;
-        }
-
-        public static void DrawShopKeep(List<Item> items, int capacity) 
-        {
-            ConsoleColor cartColor = ConsoleColor.DarkYellow;
-            ConsoleColor salesmanColor = ConsoleColor.DarkCyan;
-            ConsoleColor UmbrellaColor = ConsoleColor.DarkGreen;
-
-            WriteWithColor("   _______\n", UmbrellaColor);
-            WriteWithColor("  / / | \\ \\\n", UmbrellaColor);
-            WriteWithColor("  ^^^^|^^^^\n", UmbrellaColor);
-            WriteWithColor("      |\n", UmbrellaColor);
-            WriteWithColor("  ()()", salesmanColor);
-            WriteWithColor("|\n", UmbrellaColor);
-            WriteWithColor("  (-.-)\n", salesmanColor);
-            WriteWithColor("  (v v)\n", salesmanColor);
-            int row = Console.CursorTop - 4;
-            Console.SetCursorPosition(8, row);
-            WriteWithColor(" ", salesmanColor);
-            for (int i = 0; i < items.Count; i++) 
-            {
-                WriteWithColor($" {items[i].DisplayChar} ", items[i].DisplayColor);
-            }
-            Console.SetCursorPosition(8, row+1);
-            WriteWithColor("▄", cartColor);
-            for (int i = 0; i < capacity; i++)
-            {
-                WriteWithColor($"▄█▄", cartColor);
-            }
-            WriteWithColor("▄", cartColor);
-            Console.SetCursorPosition(8, row+2);
-            WriteWithColor("\\", cartColor);
-            for (int i = 0; i < capacity; i++)
-            {
-                WriteWithColor($"___", cartColor);
-            }
-            WriteWithColor("/", cartColor);
-            DrawHorse(11 + (capacity * 3), row, ConsoleColor.DarkCyan);
-            Console.SetCursorPosition(8, row + 3);
-            WriteWithColor("0", cartColor);
-            for (int i = 0; i < capacity; i++)
-            {
-                WriteWithColor($"---", cartColor);
-            }
-            WriteWithColor("0", cartColor);
-            Console.WriteLine();
-            WriteWithColor("============================================\n", ConsoleColor.Cyan);
         }
     }
 }

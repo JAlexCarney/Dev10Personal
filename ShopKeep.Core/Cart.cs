@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopKeep
+namespace ShopKeep.Core
 {
-    class Cart
+    public class Cart
     {
         public List<Item> ForSale { get; set; }
         public int Capacity { get; set; }
@@ -20,6 +20,11 @@ namespace ShopKeep
             {
                 ForSale.Add(Item.RandomItem());
             }
+        }
+
+        public void RemoveItem(Item toRemove) 
+        {
+            ForSale.Remove(toRemove);
         }
     }
 }

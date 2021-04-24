@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopKeep", "ShopKeep.csproj", "{F705227E-2236-4749-9EA1-0BE2F22D49D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopKeep", "ShopKeep.csproj", "{F705227E-2236-4749-9EA1-0BE2F22D49D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopKeep.Core", "..\ShopKeep.Core\ShopKeep.Core.csproj", "{8A6F7101-5524-4591-A178-1FE701325902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F705227E-2236-4749-9EA1-0BE2F22D49D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F705227E-2236-4749-9EA1-0BE2F22D49D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F705227E-2236-4749-9EA1-0BE2F22D49D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A6F7101-5524-4591-A178-1FE701325902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A6F7101-5524-4591-A178-1FE701325902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A6F7101-5524-4591-A178-1FE701325902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A6F7101-5524-4591-A178-1FE701325902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

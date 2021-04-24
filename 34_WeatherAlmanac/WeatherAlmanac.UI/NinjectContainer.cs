@@ -14,7 +14,7 @@ namespace WeatherAlmanac.UI
     {
         public static StandardKernel Kernel { get; private set; }
 
-        public static void Configure(ApplicationMode mode) 
+        public static void Configure(ApplicationMode mode, LoggerMode logMode) 
         {
             Kernel = new StandardKernel();
 
@@ -25,6 +25,19 @@ namespace WeatherAlmanac.UI
             else 
             {
                 Kernel.Bind<IRecordRepository>().To<FileRecordRepository>().WithConstructorArgument("filename", "almanac.csv");
+            }
+
+            switch (logMode) 
+            {
+                case LoggerMode.NULL:
+                    Kernel.Bind<ILogger>().To<NullLogger>();
+                    break;
+                case LoggerMode.CONSOLE:
+                    Kernel.Bind<ILogger>().To<ConsoleLogger>();
+                    break;
+                case LoggerMode.FILE:
+                    Kernel.Bind<ILogger>().To<FileLogger>();
+                    break;
             }
 
             Kernel.Bind<IRecordService>().To<RecordService>();
