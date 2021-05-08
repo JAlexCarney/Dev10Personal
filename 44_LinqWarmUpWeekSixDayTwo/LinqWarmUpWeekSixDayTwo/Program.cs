@@ -16,7 +16,7 @@ namespace LinqWarmUpWeekSixDayTwo
             ReadInEmployees();
             io.PrintLineGreen($"{employees.Count} employees loaded");
 
-            int choice = io.ReadInt("1. Top Earners By State\n2. Average Salary By State\n3. Number of Employees By State\nEnter Choice: ", 1, 3);
+            int choice = io.ReadInt("1. Top Earners By State\n2. Average Salary By State\n3. Number of Employees By State\n4. Top N Earners By State\n5. Average Salary By Age Range\n6. Average Salary By Specific State\nEnter Choice: ", 1, 6);
             switch (choice)
             {
                 case 1:
@@ -26,8 +26,19 @@ namespace LinqWarmUpWeekSixDayTwo
                     DisplayAverageSalaryByStateReport();
                     break;
                 case 3:
-                default:
                     DisplayTotalNumberOfEmployeesByState();
+                    break;
+                case 4:
+                    TopNEmployeesBySalary(io.ReadInt("Enter How many you want: "));
+                    break;
+                case 5:
+                    AverageSalaryByAgeRange();
+                    break;
+                case 6:
+                    FilterByStateGiveAverageSalary(io.ReadRequiredString("Enter State: "));
+                    break;
+                default:
+                    io.PrintLineRed("INVALID OPTION!");
                     break;
             }
         }
@@ -45,7 +56,7 @@ namespace LinqWarmUpWeekSixDayTwo
                 throw new Exception("Failed To Read!", ex);
             }
 
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 1; i < lines.Length; i++)
             {
                 string[] fields = lines[i].Split(",", StringSplitOptions.TrimEntries);
                 Employee employee = DeserializeEmployee(fields);
@@ -54,6 +65,49 @@ namespace LinqWarmUpWeekSixDayTwo
 
                     employees.Add(employee);
                 }
+            }
+        }
+
+        public static void TopNEmployeesBySalary(int n) 
+        {
+            var query = employees.OrderByDescending(g => g.Salary)
+                                .Take(n);
+            int rank = 1;
+            foreach (var employee in query)
+            {
+                io.PrintLineDarkYellow($"Rank {rank}: {SerializeEmployee(employee)}");
+                rank++;
+            }
+        }
+
+        public static void AverageSalaryByAgeRange() 
+        {
+            var query = employees
+                .OrderBy(e => e.Age)
+                .GroupBy(e => (int)Math.Floor(((decimal)e.Age)/10.0M))
+                .Select(g => new {
+                    g.Key,
+                    AverageSalary = g.Average(e => e.Salary) 
+                });
+            foreach (var group in query)
+            {
+                io.PrintLineDarkYellow($"{group.Key}0->{group.Key}9: {group.AverageSalary:C}");
+            }
+        }
+
+        public static void FilterByStateGiveAverageSalary(string state) 
+        {
+            var query = employees
+                .Where(e => e.State == state)
+                .GroupBy(g => g.State)
+                .Select(g => new
+                {
+                    g.Key,
+                    AverageSalary = g.Average(e => e.Salary)
+                });
+            foreach (var group in query)
+            {
+                io.PrintLineDarkYellow($"State: {group.Key} => Average Salary: {group.AverageSalary:C}");
             }
         }
 
@@ -106,7 +160,7 @@ namespace LinqWarmUpWeekSixDayTwo
         public static string SerializeEmployee(Employee employee)
         {
             //1,Isidor,Turton,NY,$48869.02
-            return $"ID: {employee.Id}, Name:{employee.FirstName} {employee.LastName}, Salary:{employee.Salary:C}";
+            return $"ID: {employee.Id}, Name:{employee.FirstName} {employee.LastName}, Age: {employee.Age}, Salary:{employee.Salary:C}";
         }
 
         public static Employee DeserializeEmployee(string[] fields) 
@@ -117,8 +171,9 @@ namespace LinqWarmUpWeekSixDayTwo
                 Id = int.Parse(fields[0]),
                 LastName = fields[1],
                 FirstName = fields[2],
-                State = fields[3],
-                Salary = decimal.Parse(fields[4].Substring(1))
+                Age = int.Parse(fields[3]),
+                State = fields[4],
+                Salary = decimal.Parse(fields[5].Substring(1))
             };
         }
     }
