@@ -8,7 +8,7 @@ using SimpleSchoolEF.Core;
 
 namespace SimpleSchoolEF
 {
-    class SimpleSchoolContext : DbContext
+    public class SimpleSchoolContext : DbContext
     {
         public DbSet<Building> Building { get; set; }
         public DbSet<Course> Course { get; set; }
@@ -24,14 +24,17 @@ namespace SimpleSchoolEF
         public DbSet<Subject> Subject { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
 
-        public SimpleSchoolContext() : base() 
+        public SimpleSchoolContext(DbContextOptions options) : base(options) 
         {
         
         }
 
-        public SimpleSchoolContext(DbContextOptions options) : base(options) 
+        public static SimpleSchoolContext GetDBContext()
         {
-        
+            var options = new DbContextOptionsBuilder<SimpleSchoolContext>()
+                .UseSqlServer("Server=localhost;Database=SimpleSchool;User Id=sa;Password=YOUR_strong_*pass4w0rd*")
+                .Options;
+            return new SimpleSchoolContext(options);
         }
     }
 }

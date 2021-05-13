@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleSchoolEF.Core
 {
-    class Room
+    public class Room
     {
         public int RoomID { get; set; }
         public int BuildingID { get; set; }

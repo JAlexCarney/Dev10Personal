@@ -6,7 +6,8 @@ namespace SimpleSchoolEF
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            SimpleSchoolController controller = new SimpleSchoolController(SimpleSchoolContext.GetDBContext());
+            controller.Run();
         }
     }
 }
