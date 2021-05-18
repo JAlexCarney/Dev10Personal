@@ -1,0 +1,26 @@
+﻿@model SimpleSchool.Mvc.Models.BuildingRoomViewModel
+
+<div class="row">
+    <h1>@Model.Building.BuildingName Rooms</h1>
+</div>
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model.Rooms)
+            {
+                <tr>
+                    <td>@room.RoomID</td>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
