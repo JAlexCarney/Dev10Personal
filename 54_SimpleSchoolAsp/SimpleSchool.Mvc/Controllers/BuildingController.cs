@@ -3,9 +3,6 @@ using SimpleSchool.Core.Entities;
 using SimpleSchool.Core.Interfaces;
 using SimpleSchool.Mvc.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SimpleSchool.Mvc.Controllers
 {
