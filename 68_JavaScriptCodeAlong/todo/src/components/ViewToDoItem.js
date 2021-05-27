@@ -15,14 +15,11 @@ let Component = (props) =>
         setNewTask("");
     }
     return (
-        <div className="form-container">
-            <h3>Adding Task</h3>
-            <form onSubmit={handleSubmit}>
-                <label>Description</label>
-                <input id="newTask" type="text" value={newTask} onChange={handleChange}></input>
-                <button className="btn btn-primary" type="submit" id="btnNewTask">Add Task</button>
-            </form>
-        </div>
+        <form className="form-container" onSubmit={handleSubmit}>
+            <label>Description</label>
+            <input id="newTask" type="text" value={newTask} onChange={handleChange}></input>
+            <button className="btn btn-primary" type="submit" id="btnNewTask">Add Task</button>
+        </form>
     );
 };
 export default Component;

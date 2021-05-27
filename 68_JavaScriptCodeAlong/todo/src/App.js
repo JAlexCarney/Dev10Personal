@@ -1,11 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import ToDoList from './components/ToDoList';
 import AddToDoItem from './components/AddToDoItem';
+//import EditToDoItem from './components/EditToDoItem';
+//import ViewToDoItem from './components/ViewToDoItem';
 
 
 function App() {
-  const [taskList, setTaskList] = useState(0);
+  const [state, setState] = useState({list:[], currentForm: "Add"});
+  useEffect(() => {
+    fetch("http://localhost:8080/api/todos")
+        .then(response => {
+            if (response.status !== 200) {
+                return Promise.reject("todos fetch failed")
+            }
+            return response.json();
+        })
+        .then(json => setState({list:json, currentForm:"Add"}))
+        .catch(console.log);
+  }, []);
   const handleNewTask = (task) => {
     const init = {
       method: "POST",
@@ -23,7 +36,7 @@ function App() {
           }
           return response.json();
       })
-      .then(json => setTaskList(json)) // Spread new state
+      .then(json => setState({list:[...state.list, json], currentForm:state.currentForm})) // Spread new state
       .catch(console.log);
   }
   const handleRemoveTask = (id) => {
@@ -32,7 +45,7 @@ function App() {
         .then(response => {
             if (response.status === 204) {
                 // `filter` new state
-                setTaskList(taskList.filter(task => task.id !== id));
+                setState({list:state.list.filter(task => task.id !== id), currentForm:state.currentForm});
             } else if (response.status === 404) {
                 return Promise.reject("sighting not found");
             } else {
@@ -41,20 +54,24 @@ function App() {
         })
         .catch(console.log);
   }
+  const handleViewTask = (task) => {
+
+  }
   const handleUpdateTask = (task, newTaskValue) => {
     
   }
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="container">
         <h1>
           Alex's ToDo Application
         </h1>
         <div className="row">
-          <div className="col col-8"><ToDoList handleRemoveTask={handleRemoveTask} handleUpdateTask={handleUpdateTask}></ToDoList></div>
+          <div className="col col-8">
+            <ToDoList taskList={state.list} handleRemoveTask={handleRemoveTask} handleUpdateTask={handleUpdateTask} handleViewTask={handleViewTask}>
+            </ToDoList>
+          </div>
           <div className="col col-4"><AddToDoItem onNewTask={handleNewTask}></AddToDoItem></div>
         </div>
-      </header>
     </div>
   );
 }
